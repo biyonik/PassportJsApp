@@ -4,25 +4,31 @@ const {
     forgot_passwordForm,
     loginPost,
     registerPost,
-    forgot_passwordPost
+    forgot_passwordPost, logOut
 } = require("../controllers/authController");
 
 const {
-    validateNewUser
+    validateNewUser, validateLogin
 } = require('../middlewares/validationMiddleware');
+
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = require('express').Router();
 
-router.get('/login', loginForm);
 
-router.post('/login', loginPost);
 
-router.get('/register', registerForm);
+router.get('/login', authMiddleware.isLoggedIn, loginForm);
 
-router.post('/register', validateNewUser(), registerPost);
+router.post('/login', [validateLogin(), authMiddleware.isLoggedIn],loginPost);
 
-router.get('/forgot_password', forgot_passwordForm);
+router.get('/register', authMiddleware.isLoggedIn, registerForm);
 
-router.post('/forgot_password', forgot_passwordPost);
+router.post('/register', [validateNewUser(), authMiddleware.isLoggedIn], registerPost);
+
+router.get('/forgot_password', authMiddleware.isLoggedIn, forgot_passwordForm);
+
+router.post('/forgot_password', authMiddleware.isLoggedIn, forgot_passwordPost);
+
+router.get('/logout', authMiddleware.sessionStarted, logOut);
 
 module.exports = router;

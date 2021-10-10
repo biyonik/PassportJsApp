@@ -7,10 +7,16 @@ const path = require('path');
 const port = process.env.PORT;
 const session = require('express-session');
 const flash = require('connect-flash');
-
+const passport = require("passport");
 
 // Database configuration
 require('./src/config/databaseConfig');
+
+// Template engine settings
+app.use(expressLayout);
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+app.set('views', path.resolve(__dirname, './src/views'));
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 const sessionStore = new MongoDBStore({
@@ -29,22 +35,24 @@ app.use(session({
 }));
 
 app.use(flash());
-// app.use((request, response, next) => {
-//     response.locals.validation_errors = request.flash('validation_errors');
-//     next();
-// })
+app.use((request, response, next) => {
+    response.locals.validation_errors = request.flash('validation_errors');
+    next();
+})
+
+// Passport initialize
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routers includes
 const authRouter = require('./src/routers/authRouter');
+const adminRouter = require('./src/routers/adminRouter');
+
 // Get and Read Form Values
 app.use(express.urlencoded({
     extended: true
 }));
-// Template engine settings
-app.use(expressLayout);
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-app.set('views', path.resolve(__dirname, './src/views'));
+
 
 // Welcome page route
 app.get('/', async function (request, response, next) {
@@ -55,6 +63,7 @@ app.get('/', async function (request, response, next) {
 });
 
 app.use('/', authRouter);
+app.use('/admin', adminRouter);
 
 
 // Application starting and listening

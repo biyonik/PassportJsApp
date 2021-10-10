@@ -24,6 +24,20 @@ const validateNewUser = function () {
     ];
 }
 
+const validateLogin = function () {
+    return [
+        body('email')
+            .trim()
+            .isEmail().withMessage('Lütfen geçerli bir e-posta adresi giriniz!'),
+        body('password')
+            .trim()
+            .isLength({min:6}).withMessage('Parola minimum 6 karakter olmalıdır!')
+            .isLength({max:16}).withMessage('Parola maksimum 16 karakter olabilir!')
+    ];
+}
+
+
 module.exports = {
-    validateNewUser
+    validateNewUser,
+    validateLogin
 }
