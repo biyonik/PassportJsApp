@@ -1,0 +1,54 @@
+<div class="wrapper bg-white mt-sm-5">
+    <h4 class="pb-4 border-bottom">Hesap Ayarları</h4>
+    <form method="post" action="/admin/update_profile" enctype="multipart/form-data" accept-charset="UTF-8">
+        <div class="d-flex align-items-start py-3 border-bottom">
+            <img
+                    src="/uploads/avatars/<%-user.avatar%>"
+                    class="img" alt="">
+            <div class="pl-sm-4 pl-2" id="img-section"><b>Profil Resmi</b>
+                <input type="file" name="avatar" class="btn button border">
+            </div>
+        </div>
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-6"><label for="firstname">Adınız</label>
+                    <input type="text"
+                           name="firstname"
+                           value="<%- user.firstname %>"
+                           class="bg-light form-control">
+                </div>
+                <span class="text-danger" id="firstname_error"></span>
+                <div class="col-md-6 pt-md-0 pt-3"><label for="lastname">Soyadınız</label>
+                    <input type="text"
+                           name="lastname"
+                           value="<%- user.lastname %>"
+                           class="bg-light form-control">
+                </div>
+                <span class="text-danger" id="lastname_error"></span>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"><label for="email">E-Posta Adresiniz</label>
+                    <input type="text"
+                           name="email"
+                           value="<%- user.email %>"
+                           readonly
+                           disabled
+                           class="bg-light form-control">
+                    <span class="text-danger" id="email_error"></span>
+                </div>
+            </div>
+            <div class="py-3 pb-4 border-bottom">
+                <button type="submit" class="btn btn-primary mr-3">Değişiklikleri Kaydet</button>
+                <button class="btn border button">İptal</button>
+            </div>
+            <div class="d-sm-flex align-items-center pt-3" id="deactivate">
+                <div>
+                    <b>Üyelğimi Pasifleştir</b>
+                </div>
+                <div class="ml-auto">
+                    <button class="btn danger">Pasifleştir</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

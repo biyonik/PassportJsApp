@@ -30,6 +30,13 @@ const UserSchema = new Schema({
         validate: [validateEmail, 'Lütfen geçerli bir e-posta adresi giriniz!'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Lütfen geçerli bir e-posta adresi giriniz!']
     },
+    isEmailActive: {
+        type: Boolean,
+        default: false
+    },
+    avatar: {
+        type: String
+    },
     password: {
         type: String,
         required: [true, 'Bu alan boş bırakılamaz!'],

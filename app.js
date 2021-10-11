@@ -15,6 +15,7 @@ require('./src/config/databaseConfig');
 // Template engine settings
 app.use(expressLayout);
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, '/src/uploads')));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, './src/views'));
 
